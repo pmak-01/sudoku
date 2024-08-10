@@ -49,11 +49,8 @@ class SudokuSolver:
 
     def solve(self):
         '''Calls the required functions to solve the sudoku, if possible'''
-        print(self.ac3())
-        print(self.backtrack())
-        print(self.grid)
-        print()
-        print(self.game_grid)
+        self.ac3()
+        self.backtrack()
 
     def revise(self, pos: tuple) -> bool:
         '''Given a confirmed Variable _Var_ at `pos`, make each `Variable` in its row, 
@@ -181,26 +178,34 @@ class SudokuSolver:
         '''Use Backtracking Search to find a correct Sudoku assignment 
         using knowledge from `self.grid`. Assigns to the `self.game_grid`.
         Returns True if a valid assignment is made, False otherwise'''
-        print(self.get_unassigned_variables())
-
-        for pos in self.get_unassigned_variables():
-            if self.assignment_complete():
-                return True
-            # pos = self.select_unassigned_variable()
-            if not pos:
-                break
-            i, j = pos
-            # print(pos, self.game_grid)
-            for val in self.grid[i][j].domain:
-                # print(pos, val, self.consistent())
-                self.game_grid[i][j] = val
-                if self.consistent():
-                    if self.backtrack():
-                        return True
-                self.game_grid[i][j] = None
+        if self.assignment_complete():
+                return True 
+        pos = self.get_unassigned_variables()[0]
+        if self.assignment_complete():
+            return True
+        if not pos:
+            return True
+        i, j = pos
+        for val in self.grid[i][j].domain:
+            self.game_grid[i][j] = val
+            if self.consistent():
+                if self.backtrack():
+                    return True
+            self.game_grid[i][j] = None
         return False
+    
+    def print_grid(self):
+        for i in range(9):
+            s = ''
+            for j in range(9):
+                if self.game_grid[i][j]:
+                    s += str(self.game_grid[i][j]) + ' '
+                else:
+                    s += '_ '
+            print(s)
 
 fh = FileHandler()
 fh.read_file('grid.txt')
 ss = SudokuSolver(fh.grid)
 ss.solve()
+ss.print_grid()
