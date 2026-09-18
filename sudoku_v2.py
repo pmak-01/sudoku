@@ -1,4 +1,5 @@
 from filehandler import FileHandler
+import sys
 
 class Variable:
     def __init__(self, i, j):
@@ -14,6 +15,7 @@ class Variable:
 class SudokuSolver:
 
     ref = dict()
+    '''A dictionary of all the subgrids i.e. the smaller 3x3 grid within the larger grid'''
     ref[0] = [(0, 0), (2, 2)]
     ref[1] = [(0, 3), (2, 5)]
     ref[2] = [(0, 6), (2, 8)]
@@ -152,7 +154,7 @@ class SudokuSolver:
             
         return True
     
-    def select_unassigned_variable(self) -> tuple[int]:
+    def select_unassigned_variable(self):
         '''Select an unassigned Variable from the grid
         and return its position'''
         for i in range(9):
@@ -204,8 +206,11 @@ class SudokuSolver:
                     s += '_ '
             print(s)
 
+# Usage: python sudoku_v2.py grid.txt
+grid_file = sys.argv[1]
+
 fh = FileHandler()
-fh.read_file('grid.txt')
+fh.read_file(grid_file)
 ss = SudokuSolver(fh.grid)
 ss.solve()
 ss.print_grid()

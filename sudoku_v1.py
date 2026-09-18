@@ -203,6 +203,3 @@ class SudokuSolver():
                     s += '_ '
             print(s)
         print()
-fh = FileHandler()
-fh.read_file('grid.txt')
-ss = SudokuSolver(fh.grid)

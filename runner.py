@@ -1,5 +1,5 @@
 import sys
-from sudoku import SudokuSolver, Variable
+from sudoku_v1 import SudokuSolver, Variable
 from filehandler import FileHandler
 import pygame
 pygame.init()
